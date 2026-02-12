@@ -64,16 +64,6 @@ const About = () => {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setActiveTranslationIndex(
-        (prevIndex) => (prevIndex + 1) % aboutTranslations.length
-      );
-    }, 5000);
-
-    return () => window.clearInterval(intervalId);
-  }, []);
-
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
