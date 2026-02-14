@@ -3,8 +3,11 @@ import { Heart, Shield, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDonationCheckout } from '@/hooks/useDonationCheckout';
 
+const PRESET_AMOUNTS = [100, 500, 1000, 5000];
+
 const Donation = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [amount, setAmount] = useState<string>('');
   const sectionRef = useRef<HTMLDivElement>(null);
   const { isLaunchingCheckout, startDonation } = useDonationCheckout();
 
@@ -100,17 +103,58 @@ const Donation = () => {
               <h3 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e] mb-4 text-center">
                 Be Part of This Ongoing Sadaqah
               </h3>
-              <p className="text-[#4a5568] leading-relaxed text-center mb-8">
+              <p className="text-[#4a5568] leading-relaxed text-center mb-6">
                 Help us continue improving the app, expanding language support, and
                 delivering reliable Quran learning features for everyone.
               </p>
+
+              {/* Preset Amount Buttons */}
+              <div className="grid grid-cols-4 gap-2 mb-4">
+                {PRESET_AMOUNTS.map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => setAmount(String(preset))}
+                    className={`py-2 rounded-lg text-sm font-medium transition-all duration-200 border ${
+                      amount === String(preset)
+                        ? 'bg-[#0d9ba8] text-white border-[#0d9ba8]'
+                        : 'bg-[#f8fafb] text-[#1a1a2e] border-gray-200 hover:border-[#0d9ba8] hover:text-[#0d9ba8]'
+                    }`}
+                  >
+                    ₹{preset.toLocaleString('en-IN')}
+                  </button>
+                ))}
+              </div>
+
+              {/* Custom Amount Input */}
+              <div className="relative mb-6">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-semibold text-[#4a5568]">
+                  ₹
+                </span>
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Enter custom amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  className="w-full pl-9 pr-4 py-4 rounded-xl border border-gray-200 text-lg font-semibold text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:font-normal placeholder:text-[#a0aec0]"
+                />
+              </div>
+
               <Button
                 className="w-full bg-[#0d9ba8] hover:bg-[#0a7a85] text-white py-6 rounded-xl text-lg font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-[#0d9ba8]/30 flex items-center justify-center gap-2"
-                onClick={startDonation}
+                onClick={() => {
+                  const rupees = Number(amount);
+                  if (!amount || isNaN(rupees) || rupees < 1) {
+                    window.alert('Please enter a valid donation amount (minimum ₹1).');
+                    return;
+                  }
+                  startDonation(rupees);
+                }}
                 disabled={isLaunchingCheckout}
               >
                 <Heart className="w-5 h-5" />
-                {isLaunchingCheckout ? 'Opening...' : 'Donate Now'}
+                {isLaunchingCheckout ? 'Opening...' : amount ? `Donate ₹${Number(amount).toLocaleString('en-IN')}` : 'Donate Now'}
               </Button>
 
               <div className="flex items-center justify-center gap-2 mt-4 text-sm text-[#4a5568]">
