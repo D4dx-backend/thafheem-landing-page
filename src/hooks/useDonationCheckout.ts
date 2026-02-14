@@ -1,10 +1,6 @@
 import { useCallback, useState } from 'react';
 import { launchDonationCheckout } from '@/services/donationCheckout';
 
-const DEFAULT_DONATION_PAISE = Number(
-  import.meta.env.VITE_DEFAULT_DONATION_PAISE ?? 50000
-);
-
 const DONATION_CAMPAIGN_ID =
   (import.meta.env.VITE_DONATION_CAMPAIGN_ID as string | undefined) ??
   'general-support';
@@ -12,15 +8,22 @@ const DONATION_CAMPAIGN_ID =
 export const useDonationCheckout = () => {
   const [isLaunchingCheckout, setIsLaunchingCheckout] = useState(false);
 
-  const startDonation = useCallback(async () => {
+  const startDonation = useCallback(async (amountInRupees: number) => {
     if (isLaunchingCheckout) {
+      return;
+    }
+
+    const amountInPaise = Math.round(amountInRupees * 100);
+
+    if (amountInPaise < 100) {
+      window.alert('Minimum donation amount is ₹1.');
       return;
     }
 
     try {
       setIsLaunchingCheckout(true);
       await launchDonationCheckout({
-        amount: DEFAULT_DONATION_PAISE,
+        amount: amountInPaise,
         donorName: 'Supporter',
         campaignId: DONATION_CAMPAIGN_ID,
         name: 'Thafheemul Quran',
