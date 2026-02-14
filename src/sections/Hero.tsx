@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Heart, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDonationCheckout } from '@/hooks/useDonationCheckout';
 import homeImage from '/images/home.png';
 import prayImage from '/images/pray.png';
 import settingsImage from '/images/settings.png';
@@ -32,7 +31,6 @@ const heroSlides = [
 const Hero = () => {
   const [activeTranslationIndex, setActiveTranslationIndex] = useState(0);
   const [activeHeroSlideIndex, setActiveHeroSlideIndex] = useState(0);
-  const { isLaunchingCheckout, startDonation } = useDonationCheckout();
 
   useEffect(() => {
     const translationInterval = window.setInterval(() => {
@@ -128,12 +126,11 @@ const Hero = () => {
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4 scroll-animate stagger-5">
               <Button
-                onClick={startDonation}
-                disabled={isLaunchingCheckout}
+                onClick={() => scrollToSection('#donate')}
                 className="bg-[#0d9ba8] hover:bg-[#0a7a85] text-white px-8 py-6 rounded-full text-lg font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-[#0d9ba8]/30 hover:-translate-y-1 flex items-center gap-2 animate-pulse-glow"
               >
                 <Heart className="w-5 h-5" />
-                {isLaunchingCheckout ? 'Opening...' : 'Donate Now'}
+                Donate Now
               </Button>
               <Button
                 onClick={() => scrollToSection('#features')}
