@@ -2,26 +2,29 @@ const RAZORPAY_SCRIPT_URL = 'https://checkout.razorpay.com/v1/checkout.js';
 
 type PaymentCurrency = 'INR';
 
-export interface CreateDonationOrderPayload {
+interface CreateOrderRequestBody {
   amount: number;
   currency: PaymentCurrency;
-  donorName?: string;
-  donorEmail?: string;
-  donorPhone?: string;
-  campaignId?: string;
+  customer: {
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
+  notes: Record<string, string>;
 }
 
 interface CreateDonationOrderResponse {
+  success: boolean;
   orderId: string;
   amount: number;
   currency: PaymentCurrency;
   keyId: string;
 }
 
-interface VerifyPaymentPayload {
-  orderId: string;
-  paymentId: string;
-  signature: string;
+interface VerifyPaymentRequestBody {
+  razorpayOrderId: string;
+  razorpayPaymentId: string;
+  razorpaySignature: string;
 }
 
 interface RazorpayHandlerResponse {
@@ -134,14 +137,14 @@ const loadRazorpayScript = () => {
 
 const parseErrorMessage = async (response: Response) => {
   try {
-    const data = (await response.json()) as { error?: string };
-    return data.error ?? 'Something went wrong while processing payment.';
+    const data = (await response.json()) as { message?: string; error?: string };
+    return data.message ?? data.error ?? 'Something went wrong while processing payment.';
   } catch {
     return 'Something went wrong while processing payment.';
   }
 };
 
-const createOrder = async (payload: CreateDonationOrderPayload) => {
+const createOrder = async (body: CreateOrderRequestBody) => {
   const baseUrl = ensureApiBaseUrl();
   const endpoint = `${baseUrl}${buildPaymentsApiPath('/create-order')}`;
 
@@ -150,7 +153,7 @@ const createOrder = async (payload: CreateDonationOrderPayload) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -160,7 +163,7 @@ const createOrder = async (payload: CreateDonationOrderPayload) => {
   return (await response.json()) as CreateDonationOrderResponse;
 };
 
-const verifyOrder = async (payload: VerifyPaymentPayload) => {
+const verifyOrder = async (body: VerifyPaymentRequestBody) => {
   const baseUrl = ensureApiBaseUrl();
   const endpoint = `${baseUrl}${buildPaymentsApiPath('/verify')}`;
 
@@ -169,7 +172,7 @@ const verifyOrder = async (payload: VerifyPaymentPayload) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -180,6 +183,7 @@ const verifyOrder = async (payload: VerifyPaymentPayload) => {
 };
 
 export interface LaunchDonationCheckoutOptions {
+  /** Amount in rupees (e.g. 100 for ₹100). Backend converts to paise. */
   amount: number;
   currency?: PaymentCurrency;
   donorName?: string;
@@ -206,10 +210,12 @@ export const launchDonationCheckout = async (
   const order = await createOrder({
     amount: options.amount,
     currency,
-    donorName: options.donorName,
-    donorEmail: options.donorEmail,
-    donorPhone: options.donorPhone,
-    campaignId: options.campaignId,
+    customer: {
+      name: options.donorName,
+      email: options.donorEmail,
+      phone: options.donorPhone,
+    },
+    notes: options.campaignId ? { campaignId: options.campaignId } : {},
   });
 
   const checkout = new window.Razorpay({
@@ -227,9 +233,9 @@ export const launchDonationCheckout = async (
     handler: async (response) => {
       try {
         await verifyOrder({
-          orderId: response.razorpay_order_id,
-          paymentId: response.razorpay_payment_id,
-          signature: response.razorpay_signature,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpaySignature: response.razorpay_signature,
         });
         options.onSuccess?.();
       } catch (error) {
