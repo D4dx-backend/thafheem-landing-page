@@ -10,11 +10,6 @@ const aboutTranslations = [
     text: "The Holy Quran is the light given by Allah to mankind. That light spreads in the hearts of those who understand and recite it. No human should miss out on this light. Quranic commentaries help common people understand the Quran. Through this, the great task of delivering the Quran's message to all sections of society using contemporary language and digital technologies is achieved. Its specialty is a language and style that easily communicates with the minds of educated people.",
   },
   {
-    language: 'Arabic',
-    dir: 'rtl',
-    text: 'القرآن الكريم هو النور الذي وهبه الله للبشرية. وهذا النور ينتشر في قلوب الذين يفهمونه ويتلونه. ولا ينبغي لأي إنسان أن يحرم من هذا النور. إن كتب تفسير القرآن تساعد عامة الناس على فهمه. ومن خلال ذلك، يتم إنجاز العمل العظيم المتمثل في إيصال رسالة القرآن إلى جميع فئات المجتمع باللغة المعاصرة والتقنيات الرقمية. ويمتاز بلغة وأسلوب يتواصل بسهولة مع عقول المثقفين.',
-  },
-  {
     language: 'Tamil',
     dir: 'ltr',
     text: 'புனித குர்ஆன் என்பது அல்லாஹ் மனிதகுலத்திற்கு வழங்கிய ஒளியாகும். அதைப் புரிந்துகொண்டு ஓதுபவர்களின் இதயங்களில் அந்த ஒளி பரவுகிறது. எந்தவொரு மனிதனும் இந்த ஒளியைப் பெறாமல் இருக்கக்கூடாது. குர்ஆன் விளக்கவுரை நூல்கள் சாதாரண மக்கள் குர்ஆனைப் புரிந்துகொள்ள உதவுகின்றன. இதன் மூலம் குர்ஆனின் செய்தியை சமகால மொழியிலும் டிஜிட்டல் தொழில்நுட்பங்கள் மூலமாகவும் சமூகத்தின் அனைத்துப் பிரிவினருக்கும் கொண்டு சேர்க்கும் மகத்தான பணி நடைபெறுகிறது. படித்தவர்களின் சிந்தனைகளோடு எளிதில் உரையாடும் மொழியும் நடையும் இதன் சிறப்பம்சமாகும்.',
@@ -70,6 +65,14 @@ const About = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const activeTranslation = aboutTranslations[activeTranslationIndex];
+  const activeTranslationFontClass =
+    activeTranslation.language === 'Urdu'
+      ? 'urdu-text'
+      : activeTranslation.language === 'Malayalam'
+        ? 'malayalam-text'
+        : '';
 
   return (
     <section
@@ -173,11 +176,11 @@ const About = () => {
               </div>
 
               <p
-                key={aboutTranslations[activeTranslationIndex].language}
-                dir={aboutTranslations[activeTranslationIndex].dir}
-                className="text-lg text-[#4a5568] leading-relaxed animate-fade-in-up"
+                key={activeTranslation.language}
+                dir={activeTranslation.dir}
+                className={`text-base sm:text-[0.95rem] text-[#4a5568] leading-relaxed animate-fade-in-up ${activeTranslationFontClass}`}
               >
-                {aboutTranslations[activeTranslationIndex].text}
+                {activeTranslation.text}
               </p>
             </div>
 {/* 

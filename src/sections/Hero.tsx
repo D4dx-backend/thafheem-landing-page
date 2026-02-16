@@ -6,12 +6,37 @@ import prayImage from '/images/pray.png';
 import settingsImage from '/images/settings.png';
 
 const verseTranslations = [
-  'അല്ലാഹുവിന് കടം കൊടുക്കുന്നവരാരുണ്ട്? വിശിഷ്ടമായ കടം; അല്ലാഹു അത് പലയിരട്ടി വര്‍ധിപ്പിച്ചു തിരിച്ചേകാന്‍. അപ്രകാരം കടം കൊടുക്കുന്നവന്ന് ശ്രേഷ്ഠമായ പ്രതിഫലവുമുണ്ട്.',
-  'Who is it that will give Allah a beautiful loan? A loan that Allah will repay after increasing it many times and grant him a generous reward.',
-  'کون ہے جو اللہ کو قرض دے؟ اچھا قرض، تاکہ اللہ اسے کئی گُنا بڑھا کر واپس دے، اور اُس کے لیے بہترین اجر ہے .',
-  'அல்லாஹ்விற்குக் கடன் கொடுப்பவர் யார்? அழகிய கடன்! அல்லாஹ் அதனைப் பன்மடங்கு பெருக்கி அவருக்குத் திரும்பக் கொடுப்பதற்காக! மேலும், அவருக்கு மிகச் சிறந்த கூலியும் இருக்கின்றது.',
-  'এমন কেউ কি আছে যে আল্লাহকে ঋণ দিতে পারে? উত্তম ঋণ যাতে আল্লাহ‌ তা কয়েকগুণ বৃদ্ধি করে ফেরত দেন। আর সেদিন তার জন্য রয়েছে সর্বোত্তম প্রতিদান১৬',
-];
+  {
+    language: 'Malayalam',
+    dir: 'ltr',
+    text: 'അല്ലാഹുവിന് കടം കൊടുക്കുന്നവരാരുണ്ട്? വിശിഷ്ടമായ കടം; അല്ലാഹു അത് പലയിരട്ടി വര്‍ധിപ്പിച്ചു തിരിച്ചേകാന്‍. അപ്രകാരം കടം കൊടുക്കുന്നവന്ന് ശ്രേഷ്ഠമായ പ്രതിഫലവുമുണ്ട്.',
+  },
+  {
+    language: 'English',
+    dir: 'ltr',
+    text: 'Who is it that will give Allah a beautiful loan? A loan that Allah will repay after increasing it many times and grant him a generous reward.',
+  },
+  {
+    language: 'Urdu',
+    dir: 'rtl',
+    text: 'کون ہے جو اللہ کو قرض دے؟ اچھا قرض، تاکہ اللہ اسے کئی گُنا بڑھا کر واپس دے، اور اُس کے لیے بہترین اجر ہے .',
+  },
+  {
+    language: 'Tamil',
+    dir: 'ltr',
+    text: 'அல்லாஹ்விற்குக் கடன் கொடுப்பவர் யார்? அழகிய கடன்! அல்லாஹ் அதனைப் பன்மடங்கு பெருக்கி அவருக்குத் திரும்பக் கொடுப்பதற்காக! மேலும், அவருக்கு மிகச் சிறந்த கூலியும் இருக்கின்றது.',
+  },
+  {
+    language: 'Bangla',
+    dir: 'ltr',
+    text: 'এমন কেউ কি আছে যে আল্লাহকে ঋণ দিতে পারে? উত্তম ঋণ যাতে আল্লাহ‌ তা কয়েকগুণ বৃদ্ধি করে ফেরত দেন। আর সেদিন তার জন্য রয়েছে সর্বোত্তম প্রতিদান১৬',
+  },
+  {
+    language: 'Hindi',
+    dir: 'ltr',
+    text: 'कौन है जो अल्लाह को क़र्ज़ दे? अच्छा क़र्ज़, ताकि अल्लाह उसे कई गुना बढ़ाकर वापस दे, और उसके लिए बेहतरीन बदला है,',
+  },
+] as const;
 
 const heroSlides = [
   {
@@ -31,14 +56,21 @@ const heroSlides = [
 const Hero = () => {
   const [activeTranslationIndex, setActiveTranslationIndex] = useState(0);
   const [activeHeroSlideIndex, setActiveHeroSlideIndex] = useState(0);
+  const activeTranslation = verseTranslations[activeTranslationIndex];
+  const activeTranslationFontClass =
+    activeTranslation.language === 'Urdu'
+      ? 'urdu-text'
+      : activeTranslation.language === 'Malayalam'
+        ? 'malayalam-text'
+        : '';
 
   useEffect(() => {
-    const translationInterval = window.setInterval(() => {
+    const translationTimeout = window.setTimeout(() => {
       setActiveTranslationIndex((prev) => (prev + 1) % verseTranslations.length);
     }, 4000);
 
-    return () => window.clearInterval(translationInterval);
-  }, []);
+    return () => window.clearTimeout(translationTimeout);
+  }, [activeTranslationIndex]);
 
   useEffect(() => {
     const heroSliderInterval = window.setInterval(() => {
@@ -114,9 +146,13 @@ const Hero = () => {
               </p>
               <p
                 key={activeTranslationIndex}
-                className="mt-3 text-sm sm:text-base text-[#374151] italic leading-relaxed animate-fade-in-up min-h-[4.5rem]"
+                dir={activeTranslation.dir}
+                className={`mt-3 text-sm sm:text-base text-[#374151] italic leading-relaxed animate-fade-in-up min-h-[4.5rem] ${activeTranslationFontClass}`}
               >
-                {verseTranslations[activeTranslationIndex]}
+                {activeTranslation.text}
+              </p>
+              <p className="mt-1 text-xs sm:text-sm text-[#6b7280] font-medium">
+                {activeTranslation.language}
               </p>
               <p className="mt-2 text-[#0d9ba8] font-semibold text-sm sm:text-base">
                 - Surah Al-Hadid 57:11

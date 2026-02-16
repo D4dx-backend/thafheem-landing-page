@@ -19,9 +19,9 @@ const Navigation = () => {
   const navLinks = [
     { name: 'Home', href: '#home' },
     { name: 'Features', href: '#features' },
-    { name: 'About', href: '#about' },
+    { name: 'Mission', href: '#about' },
     { name: 'Screenshots', href: '#screenshots' },
-    { name: 'Donate', href: '#donate' },
+    { name: 'Support Us', href: '#donate' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -44,17 +44,19 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div 
+          <a
+            href="https://thafheem.net/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-3 cursor-pointer"
-            onClick={() => scrollToSection('#home')}
+            aria-label="Visit Thafheem website"
           >
             <img
               src={logoWhite}
               alt="Thafheemul Quran logo"
               className="h-16 w-[180px] object-contain drop-shadow-md"
             />
-            
-          </div>
+          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">

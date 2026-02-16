@@ -5,13 +5,13 @@ const features = [
   {
     icon: Globe,
     title: 'Multilingual Support',
-    description: 'Thafheemul Qur’an is available in Urdu, Malayalam, English, Hindi, Tamil, and Bengali through its mobile apps and website , making the Qur’an and its Tafseer easily accessible to a wide and diverse audience. Users can study the Qur’an in their preferred language anytime, anywhere, across digital platforms.',
+    description: 'Thafheemul Qur’an is available in multiple languages through its mobile apps and website, allowing users to study the Qur’an and its Tafseer anytime, anywhere.',
     color: 'from-[#0d9ba8] to-[#14b8c7]',
   },
   {
     icon: BookOpen,
     title: 'Word-by-Word Translation',
-    description: 'Word-by-word translation helps readers understand the exact meaning of each Arabic word in the Qur’an, rather than only the general sense of a verse. It strengthens vocabulary, improves direct connection with the Qur’anic text, and supports deeper reflection during reading and study. This approach is especially valuable for learners, students, and anyone seeking a more accurate and conscious understanding of the Qur’an.',
+    description: 'Word-by-word translation enables readers to understand the precise meaning of each Arabic word, enhancing vocabulary, strengthening connection with the Qur’an, and supporting deeper, more accurate study.',
     color: 'from-[#1e6f5c] to-[#2a9d8f]',
   },
   {
@@ -179,7 +179,7 @@ const Features = () => {
         </div>
 
         {/* Features Slider */}
-        <div className="overflow-hidden">
+        <div className="overflow-hidden pb-10">
           <div
             className="flex"
             style={{

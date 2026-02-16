@@ -2,19 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Facebook, Instagram, Youtube, Globe, Mail, MapPin, Phone } from 'lucide-react';
 import favIcon from '/images/fav-icon.png';
 
-const quickLinks = [
-  { name: 'Home', href: '#home' },
-  { name: 'Features', href: '#features' },
-  { name: 'Screenshots', href: '#screenshots' },
-  { name: 'About Us', href: '#about' },
-];
-
-const supportLinks = [
-  { name: 'Contact Us', href: 'https://merchant.razorpay.com/policy/PV2XAkNJXKVU7X/terms' },
-  { name: 'Privacy Policy', href: 'https://merchant.razorpay.com/policy/PV2XAkNJXKVU7X/terms' },
-  { name: 'Terms of Service', href: 'https://merchant.razorpay.com/policy/PV2XAkNJXKVU7X/terms' },
-];
-
 const socialLinks = [
   { icon: Facebook, href: 'https://www.facebook.com/ThafheemulQuran', label: 'Facebook' },
   { icon: Instagram, href: 'https://www.instagram.com/thafheemulquran_app/#', label: 'Instagram' },
@@ -44,16 +31,6 @@ const Footer = () => {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (href: string) => {
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href);
-      if (element) {
-        const y = element.getBoundingClientRect().top + window.scrollY - 90;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    }
-  };
-
   return (
     <footer
       ref={footerRef}
@@ -66,7 +43,7 @@ const Footer = () => {
 
       {/* Main Footer Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
           {/* Brand Column */}
           <div
             className={`space-y-6 transition-all duration-700 ${
@@ -107,53 +84,9 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div
-            className={`transition-all duration-700 delay-100 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <h4 className="font-bold text-lg mb-6">Quick Links</h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
-                    className="text-gray-400 hover:text-[#0d9ba8] transition-colors duration-300 hover:translate-x-1 inline-block"
-                  >
-                    {link.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div
-            className={`transition-all duration-700 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <h4 className="font-bold text-lg mb-6">Support</h4>
-            <ul className="space-y-3">
-              {supportLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-[#0d9ba8] transition-colors duration-300 hover:translate-x-1 inline-block"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Contact */}
           <div
-            className={`transition-all duration-700 delay-300 ${
+            className={`transition-all duration-700 delay-100 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
@@ -192,9 +125,20 @@ const Footer = () => {
               isVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <p className="text-gray-400 text-sm text-center sm:text-left">
-              © 2025 Thafheemul Quran. All rights reserved.
-            </p>
+            <div className="text-center sm:text-left">
+              <p className="text-gray-400 text-sm">
+                © 2025 Thafheemul Quran. All rights reserved.
+              </p>
+              <p className="text-gray-400 text-sm">Powered By <a
+                href="https://d4dx.co/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block text-sm text-gray-400 hover:text-[#0d9ba8] transition-colors"
+              >
+                 D4DX
+              </a></p>
+              
+            </div>
             <div className="flex gap-6 text-sm">
               <a
                 href="https://merchant.razorpay.com/policy/PV2XAkNJXKVU7X/terms"
@@ -213,7 +157,7 @@ const Footer = () => {
                 Terms of Service
               </a>
               <a
-                href="https://merchant.razorpay.com/policy/PV2XAkNJXKVU7X/terms"
+                href="https://d4dx.co/contacts-us/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-[#0d9ba8] transition-colors"

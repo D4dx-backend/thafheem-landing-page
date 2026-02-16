@@ -7,6 +7,10 @@ import expandedMenuImage from '/images/expanded-menu.jpeg';
 import landingImage from '/images/landing.jpeg';
 import qiblaFinderImage from '/images/qibla-finder.jpeg';
 import suraListingImage from '/images/sura-listing.jpeg';
+import urduImage from '/images/urdu.jpeg';
+import hindiImage from '/images/hindi.jpeg';
+import englishImage from '/images/english.jpeg';
+import banglaImage from '/images/bangla.jpeg';
 import wideSettingsImage from '/images/wide-settings.jpeg';
 
 const screenshots = [
@@ -44,6 +48,26 @@ const screenshots = [
     src: suraListingImage,
     title: 'Surah Listing',
     description: 'Browse surahs with clean cards, metadata, and quick continue.',
+  },
+  {
+    src: urduImage,
+    title: 'Urdu Reading Mode',
+    description: 'Explore Surah listing and reading flow with Urdu language support.',
+  },
+  {
+    src: hindiImage,
+    title: 'Hindi Reading Mode',
+    description: 'Navigate the app in Hindi with localized Surah and UI labels.',
+  },
+  {
+    src: englishImage,
+    title: 'English Reading Mode',
+    description: 'Use the complete Quran experience with clean English localization.',
+  },
+  {
+    src: banglaImage,
+    title: 'Bangla Reading Mode',
+    description: 'Read and browse in Bangla with a familiar and intuitive interface.',
   },
   {
     src: wideSettingsImage,
@@ -93,19 +117,24 @@ const Screenshots = () => {
 
   const getSlideStyle = (index: number) => {
     const total = screenshots.length;
-    const rawDiff = index - activeIndex;
-    const half = Math.floor(total / 2);
-    const normalizedDiff = (rawDiff + total) % total;
-    const diff = normalizedDiff > half ? normalizedDiff - total : normalizedDiff;
-    const absDistance = Math.abs(diff);
-    
-    if (absDistance > 2) {
+    const forwardDistance = (index - activeIndex + total) % total;
+    let diff: number;
+
+    if (forwardDistance === 0) {
+      diff = 0;
+    } else if (forwardDistance <= 2) {
+      diff = forwardDistance;
+    } else if (forwardDistance >= total - 2) {
+      diff = forwardDistance - total;
+    } else {
       return {
-        transform: `translateX(${diff > 0 ? 160 : -160}%) scale(0.55)`,
+        transform: 'translateX(0) scale(0.55)',
         opacity: 0,
         zIndex: 0,
       };
     }
+
+    const absDistance = Math.abs(diff);
 
     const slideOpacity = absDistance === 0 ? 1 : absDistance === 1 ? 0.2 : 0.08;
 
