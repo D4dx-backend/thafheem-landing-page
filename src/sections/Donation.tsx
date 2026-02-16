@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Heart, Shield, Sparkles, User, Mail, Phone } from 'lucide-react';
+import { Heart, Shield, User, Mail, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDonationCheckout } from '@/hooks/useDonationCheckout';
 
@@ -35,7 +35,7 @@ const Donation = () => {
   const handleDonate = () => {
     const rupees = Number(amount);
     if (!amount || isNaN(rupees) || rupees < 1) {
-      window.alert('Please enter a valid donation amount (minimum ₹1).');
+      window.alert('Please enter a valid amount (minimum ₹1).');
       return;
     }
     if (!donorName.trim()) {
@@ -80,35 +80,12 @@ const Donation = () => {
                 Support This <span className="text-gradient">Noble Cause</span>
               </h2>
               <p className="text-lg text-[#4a5568] leading-relaxed">
-                Your donation helps us maintain and improve the app, add new languages,
+                Your Support helps us maintain and improve the app, add new languages,
                 and reach more Muslims worldwide. Every contribution, no matter how small,
                 makes a difference.
               </p>
             </div>
 
-            {/* Impact Cards */}
-            <div
-              className={`grid grid-cols-2 gap-4 transition-all duration-700 delay-400 ${
-                isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-10'
-              }`}
-            >
-              <div className="bg-[#f8fafb] rounded-xl p-4">
-                <div className="w-10 h-10 rounded-full bg-[#0d9ba8]/10 flex items-center justify-center mb-3">
-                  <Heart className="w-5 h-5 text-[#0d9ba8]" />
-                </div>
-                <p className="font-bold text-[#1a1a2e]">2,847</p>
-                <p className="text-sm text-[#4a5568]">Supporters</p>
-              </div>
-              <div className="bg-[#f8fafb] rounded-xl p-4">
-                <div className="w-10 h-10 rounded-full bg-[#d4af37]/10 flex items-center justify-center mb-3">
-                  <Sparkles className="w-5 h-5 text-[#d4af37]" />
-                </div>
-                <p className="font-bold text-[#1a1a2e]">100%</p>
-                <p className="text-sm text-[#4a5568]">Mission Focused</p>
-              </div>
-            </div>
           </div>
 
           {/* Donation CTA Card */}
@@ -206,8 +183,8 @@ const Donation = () => {
                 {isLaunchingCheckout
                   ? 'Opening...'
                   : amount
-                    ? `Donate ₹${Number(amount).toLocaleString('en-IN')}`
-                    : 'Donate Now'}
+                    ? `Support ₹${Number(amount).toLocaleString('en-IN')}`
+                    : 'Support Now'}
               </Button>
 
               <div className="flex items-center justify-center gap-2 mt-4 text-sm text-[#4a5568]">

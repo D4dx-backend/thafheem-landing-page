@@ -24,11 +24,20 @@ const DownloadCTA = () => {
     return () => observer.disconnect();
   }, []);
 
+  const languagePills: ReadonlyArray<{ label: string; className?: string }> = [
+    { label: 'English' },
+    { label: 'മലയാളം', className: 'malayalam-text' },
+    { label: 'اردو', className: 'urdu-text' },
+    { label: 'தமிழ்' },
+    { label: 'বাংলা' },
+    { label: 'हिंदी' },
+  ];
+
   return (
     <section
       id="download"
       ref={sectionRef}
-      className="relative py-24 overflow-hidden bg-gradient-to-br from-[#0a7a85] via-[#0d9ba8] to-[#1e6f5c]"
+      className="relative py-24 overflow-hidden bg-[#0d9ba8]"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -116,12 +125,12 @@ const DownloadCTA = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {['English', 'മലയാളം', 'اردو', 'தமிழ்', 'বাংলা', 'हिंदी'].map((lang) => (
+          {languagePills.map((lang) => (
             <span
-              key={lang}
-              className="px-4 py-2 bg-white/10 rounded-full text-sm text-white/90 border border-white/20"
+              key={lang.label}
+              className={`px-4 py-2 bg-white/10 rounded-full text-sm text-white/90 border border-white/20 ${lang.className ?? ''}`}
             >
-              {lang}
+              {lang.label}
             </span>
           ))}
         </div>

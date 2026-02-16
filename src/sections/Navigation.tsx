@@ -21,7 +21,7 @@ const Navigation = () => {
     { name: 'Features', href: '#features' },
     { name: 'About', href: '#about' },
     { name: 'Screenshots', href: '#screenshots' },
-    { name: 'Donate', href: '#donate' },
+    { name: 'Support Us', href: '#donate' },
   ];
 
   const scrollToSection = (href: string) => {

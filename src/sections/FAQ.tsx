@@ -4,11 +4,11 @@ import { ChevronDown } from 'lucide-react';
 const faqs = [
   {
     question: 'Is the app free to use?',
-    answer: 'Yes, Thafheemul Quran is completely free to download and use. We believe the Quran should be accessible to everyone without barriers. There are no hidden fees, no subscriptions, and no advertisements.',
+    answer: 'Yes, Thafheemul Qur’an is completely free. There are no  no ads. We want everyone to access the Qur’an without any barriers.',
   },
   {
-    question: 'Which languages are supported?',
-    answer: 'We currently support 6 languages including English, Malayalam (മലയാളം), Urdu (اردو), Tamil (தமிழ்), Bengali (বাংলা), Hindi (हिंदी), Arabic (العربية), and more. We are constantly working to add new languages to make the Quran accessible to more people.',
+    question: 'Supported Languages ?',
+    answer: 'We currently support multiple languages, including English, Malayalam (മലയാളം), Urdu (اردو), Tamil (தமிழ்), Bengali (বাংলা), and Hindi (हिंदी).',
   },
   {
     question: 'Can I listen to audio offline?',
@@ -16,11 +16,13 @@ const faqs = [
   },
   {
     question: 'How can I contribute to the project?',
-    answer: 'You can support us through donations, sharing the app with friends and family, or volunteering for translations and proofreading. Every contribution helps us reach more Muslims worldwide.',
+    answer: 'You can support us through the',
+    answerLinkText: 'Support Us section',
+    answerLinkHref: '#donate',
   },
   {
     question: 'Is my data secure?',
-    answer: 'Absolutely. We take privacy very seriously. Your bookmarks and notes are stored securely and never shared with third parties. We use industry-standard encryption to protect your data.',
+    answer: 'Absolutely. We take privacy very seriously. Your bookmarks and notes are stored securely and never shared with third parties.',
   },
 ];
 
@@ -112,6 +114,18 @@ const FAQ = () => {
               >
                 <div className="p-6 pt-0 text-[#4a5568] leading-relaxed">
                   {faq.answer}
+                  {faq.answerLinkText && faq.answerLinkHref ? (
+                    <>
+                      {' '}
+                      <a
+                        href={faq.answerLinkHref}
+                        className="text-[#0d9ba8] font-semibold hover:underline"
+                      >
+                        {faq.answerLinkText}
+                      </a>
+                      .
+                    </>
+                  ) : null}
                 </div>
               </div>
             </div>
