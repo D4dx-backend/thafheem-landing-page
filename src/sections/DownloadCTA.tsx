@@ -63,7 +63,7 @@ const DownloadCTA = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          Download Thafheemul Quran Today
+          Download Thafheemul Quran
         </h2>
 
         {/* Subtitle */}
