@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Heart, Shield, Sparkles } from 'lucide-react';
+import { Heart, Shield, Sparkles, User, Mail, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDonationCheckout } from '@/hooks/useDonationCheckout';
 
@@ -8,6 +8,9 @@ const PRESET_AMOUNTS = [100, 500, 1000, 5000];
 const Donation = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [amount, setAmount] = useState<string>('');
+  const [donorName, setDonorName] = useState('');
+  const [donorEmail, setDonorEmail] = useState('');
+  const [donorPhone, setDonorPhone] = useState('');
   const sectionRef = useRef<HTMLDivElement>(null);
   const { isLaunchingCheckout, startDonation } = useDonationCheckout();
 
@@ -28,6 +31,23 @@ const Donation = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleDonate = () => {
+    const rupees = Number(amount);
+    if (!amount || isNaN(rupees) || rupees < 1) {
+      window.alert('Please enter a valid donation amount (minimum ₹1).');
+      return;
+    }
+    if (!donorName.trim()) {
+      window.alert('Please enter your name.');
+      return;
+    }
+    startDonation(rupees, {
+      name: donorName.trim(),
+      email: donorEmail.trim(),
+      phone: donorPhone.trim(),
+    });
+  };
 
   return (
     <section
@@ -60,8 +80,8 @@ const Donation = () => {
                 Support This <span className="text-gradient">Noble Cause</span>
               </h2>
               <p className="text-lg text-[#4a5568] leading-relaxed">
-                Your donation helps us maintain and improve the app, add new languages, 
-                and reach more Muslims worldwide. Every contribution, no matter how small, 
+                Your donation helps us maintain and improve the app, add new languages,
+                and reach more Muslims worldwide. Every contribution, no matter how small,
                 makes a difference.
               </p>
             </div>
@@ -108,6 +128,42 @@ const Donation = () => {
                 delivering reliable Quran learning features for everyone.
               </p>
 
+              {/* Donor Info Fields */}
+              <div className="space-y-3 mb-5">
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a0aec0]" />
+                  <input
+                    type="text"
+                    placeholder="Your name *"
+                    value={donorName}
+                    onChange={(e) => setDonorName(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:text-[#a0aec0]"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a0aec0]" />
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      value={donorEmail}
+                      onChange={(e) => setDonorEmail(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:text-[#a0aec0]"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a0aec0]" />
+                    <input
+                      type="tel"
+                      placeholder="Phone"
+                      value={donorPhone}
+                      onChange={(e) => setDonorPhone(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:text-[#a0aec0]"
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Preset Amount Buttons */}
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {PRESET_AMOUNTS.map((preset) => (
@@ -143,18 +199,15 @@ const Donation = () => {
 
               <Button
                 className="w-full bg-[#0d9ba8] hover:bg-[#0a7a85] text-white py-6 rounded-xl text-lg font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-[#0d9ba8]/30 flex items-center justify-center gap-2"
-                onClick={() => {
-                  const rupees = Number(amount);
-                  if (!amount || isNaN(rupees) || rupees < 1) {
-                    window.alert('Please enter a valid donation amount (minimum ₹1).');
-                    return;
-                  }
-                  startDonation(rupees);
-                }}
+                onClick={handleDonate}
                 disabled={isLaunchingCheckout}
               >
                 <Heart className="w-5 h-5" />
-                {isLaunchingCheckout ? 'Opening...' : amount ? `Donate ₹${Number(amount).toLocaleString('en-IN')}` : 'Donate Now'}
+                {isLaunchingCheckout
+                  ? 'Opening...'
+                  : amount
+                    ? `Donate ₹${Number(amount).toLocaleString('en-IN')}`
+                    : 'Donate Now'}
               </Button>
 
               <div className="flex items-center justify-center gap-2 mt-4 text-sm text-[#4a5568]">
