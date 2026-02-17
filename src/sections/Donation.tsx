@@ -1,18 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Heart, Shield, User, Mail, Phone } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useDonationCheckout } from '@/hooks/useDonationCheckout';
+import { Heart, Shield } from 'lucide-react';
 
-const PRESET_AMOUNTS = [100, 500, 1000, 5000];
+const RAZORPAY_DONATION_URL = 'https://pages.razorpay.com/thafheem-donation';
 
 const Donation = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [amount, setAmount] = useState<string>('');
-  const [donorName, setDonorName] = useState('');
-  const [donorEmail, setDonorEmail] = useState('');
-  const [donorPhone, setDonorPhone] = useState('');
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { isLaunchingCheckout, startDonation } = useDonationCheckout();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,23 +24,6 @@ const Donation = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  const handleDonate = () => {
-    const rupees = Number(amount);
-    if (!amount || isNaN(rupees) || rupees < 1) {
-      window.alert('Please enter a valid amount (minimum ₹1).');
-      return;
-    }
-    if (!donorName.trim()) {
-      window.alert('Please enter your name.');
-      return;
-    }
-    startDonation(rupees, {
-      name: donorName.trim(),
-      email: donorEmail.trim(),
-      phone: donorPhone.trim(),
-    });
-  };
 
   return (
     <section
@@ -105,87 +81,15 @@ const Donation = () => {
                 delivering reliable Quran learning features for everyone.
               </p>
 
-              {/* Donor Info Fields */}
-              <div className="space-y-3 mb-5">
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a0aec0]" />
-                  <input
-                    type="text"
-                    placeholder="Your name *"
-                    value={donorName}
-                    onChange={(e) => setDonorName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:text-[#a0aec0]"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a0aec0]" />
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      value={donorEmail}
-                      onChange={(e) => setDonorEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:text-[#a0aec0]"
-                    />
-                  </div>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a0aec0]" />
-                    <input
-                      type="tel"
-                      placeholder="Phone"
-                      value={donorPhone}
-                      onChange={(e) => setDonorPhone(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:text-[#a0aec0]"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Preset Amount Buttons */}
-              <div className="grid grid-cols-4 gap-2 mb-4">
-                {PRESET_AMOUNTS.map((preset) => (
-                  <button
-                    key={preset}
-                    type="button"
-                    onClick={() => setAmount(String(preset))}
-                    className={`py-2 rounded-lg text-sm font-medium transition-all duration-200 border ${
-                      amount === String(preset)
-                        ? 'bg-[#0d9ba8] text-white border-[#0d9ba8]'
-                        : 'bg-[#f8fafb] text-[#1a1a2e] border-gray-200 hover:border-[#0d9ba8] hover:text-[#0d9ba8]'
-                    }`}
-                  >
-                    ₹{preset.toLocaleString('en-IN')}
-                  </button>
-                ))}
-              </div>
-
-              {/* Custom Amount Input */}
-              <div className="relative mb-6">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-semibold text-[#4a5568]">
-                  ₹
-                </span>
-                <input
-                  type="number"
-                  min="1"
-                  placeholder="Enter custom amount"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="w-full pl-9 pr-4 py-4 rounded-xl border border-gray-200 text-lg font-semibold text-[#1a1a2e] focus:outline-none focus:ring-2 focus:ring-[#0d9ba8] focus:border-transparent placeholder:font-normal placeholder:text-[#a0aec0]"
-                />
-              </div>
-
-              <Button
+              <a
+                href={RAZORPAY_DONATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full bg-[#0d9ba8] hover:bg-[#0a7a85] text-white py-6 rounded-xl text-lg font-semibold transition-all duration-300 hover:shadow-xl hover:shadow-[#0d9ba8]/30 flex items-center justify-center gap-2"
-                onClick={handleDonate}
-                disabled={isLaunchingCheckout}
               >
                 <Heart className="w-5 h-5" />
-                {isLaunchingCheckout
-                  ? 'Opening...'
-                  : amount
-                    ? `Support ₹${Number(amount).toLocaleString('en-IN')}`
-                    : 'Support Now'}
-              </Button>
+                Support Now
+              </a>
 
               <div className="flex items-center justify-center gap-2 mt-4 text-sm text-[#4a5568]">
                 <Shield className="w-4 h-4" />
