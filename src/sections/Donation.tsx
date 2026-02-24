@@ -97,11 +97,11 @@ const Donation = () => {
 
                 <div className="mb-2">
                   <div className="w-full bg-white border-2 border-[#0d9ba8]/20 rounded-2xl p-3 shadow-md">
-                    <img
+                    <a href={RAZORPAY_DONATION_URL} target="_blank" rel="noopener noreferrer"><img
                       src="/images/donate1.jpeg"
                       alt="Donate to support Thafheem Quran"
                       className="w-full h-auto object-contain rounded-xl"
-                    />
+                    /></a>
                   </div>
                 </div>
 
