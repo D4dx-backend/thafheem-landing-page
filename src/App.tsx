@@ -43,13 +43,13 @@ function App() {
       <Navigation />
       <main>
         <TopBanner />
+        <Donation />
         <Hero />
         {/* <QuranicVerse /> */}
         <Features />
         <Screenshots />
         <Statistics />
         <About />
-        <Donation />
         <Testimonials />
         <DownloadCTA />
         <FAQ />
