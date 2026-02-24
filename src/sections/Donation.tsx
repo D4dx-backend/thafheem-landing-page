@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Heart, Shield, Copy, Check } from 'lucide-react';
+import { Heart, Copy, Check } from 'lucide-react';
 
 const RAZORPAY_DONATION_URL = 'https://pages.razorpay.com/thafheem-donation';
 const UPI_ID = 'vyapar.176971524101@hdfcbank';
@@ -60,7 +60,7 @@ const Donation = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div
               className={`transition-all duration-700 ${
                 isVisible
@@ -88,12 +88,22 @@ const Donation = () => {
                   : 'opacity-0 translate-y-10'
               }`}
             >
-              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-7">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-5">
                 <span className="text-xs font-semibold uppercase tracking-widest text-[#0d9ba8]">Razorpay Payment</span>
-                <h4 className="text-xl font-bold text-[#1a1a2e] mt-2 mb-3">Quick support via gateway</h4>
-                <p className="text-sm text-[#4a5568] mb-5">
+                <h4 className="text-xl font-bold text-[#1a1a2e] mt-2 mb-1">Quick support via gateway</h4>
+                <p className="text-sm text-[#4a5568] mb-1">
                   Use Razorpay for fast and secure online payment.
                 </p>
+
+                <div className="mb-2">
+                  <div className="w-full bg-white border-2 border-[#0d9ba8]/20 rounded-2xl p-3 shadow-md">
+                    <img
+                      src="/images/donate1.jpeg"
+                      alt="Donate to support Thafheem Quran"
+                      className="w-full h-auto object-contain rounded-xl"
+                    />
+                  </div>
+                </div>
 
                 <a
                   href={RAZORPAY_DONATION_URL}
@@ -105,10 +115,7 @@ const Donation = () => {
                   Support Now
                 </a>
 
-                <div className="flex items-center justify-center gap-2 mt-3 text-xs text-[#4a5568]">
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>Secure payment gateway</span>
-                </div>
+               
               </div>
             </div>
           </div>
