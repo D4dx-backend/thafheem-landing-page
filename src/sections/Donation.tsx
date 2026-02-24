@@ -58,9 +58,9 @@ const Donation = () => {
       <div className="absolute top-20 left-10 w-40 h-40 bg-[#0d9ba8]/5 rounded-full blur-3xl" />
       <div className="absolute bottom-20 right-10 w-60 h-60 bg-[#d4af37]/5 rounded-full blur-3xl" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          <div className="space-y-6">
+          <div className="space-y-6 min-w-0">
             <div
               className={`transition-all duration-700 ${
                 isVisible
@@ -121,7 +121,7 @@ const Donation = () => {
           </div>
 
           <div
-            className={`transition-all duration-700 delay-300 ${
+            className={`min-w-0 transition-all duration-700 delay-300 ${
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 translate-x-20'
